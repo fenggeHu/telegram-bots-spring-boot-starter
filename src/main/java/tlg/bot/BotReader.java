@@ -72,9 +72,15 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
     protected Command toCommand(String text) {
         if (null == text) return null;
         int index = text.indexOf(" ", 1);
-        return Command.builder().command(text.substring(0, index))
-                .content(text.substring(index + 1))
-                .build();
+        if (index == -1) {  // 只有命令没有参数
+            return Command.builder().command(text)
+                    .content("")
+                    .build();
+        } else {
+            return Command.builder().command(text.substring(0, index))
+                    .content(text.substring(index + 1))
+                    .build();
+        }
     }
 
     // 需要实现
