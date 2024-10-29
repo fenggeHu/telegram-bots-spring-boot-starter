@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=tlg.bot.spring.BotProperties,tlg.bot.spring.BotServer\
-,tlg.bot.spring.BotStarter
+,tlg.bot.spring.BotServerStarter

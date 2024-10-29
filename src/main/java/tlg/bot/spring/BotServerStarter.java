@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * @author max.hu  @date 2024/10/24
  **/
 @Configuration
-public class BotStarter implements CommandLineRunner {
+public class BotServerStarter implements CommandLineRunner {
     @Autowired
     private BotProperties botProperties;
 
