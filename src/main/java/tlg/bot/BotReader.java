@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import tlg.bot.model.Command;
+import utils.JacksonUtil;
 
 /**
  * 读取信息的Bot - 封装公共逻辑
@@ -27,7 +28,7 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
     // 处理逐条消息
     @Override
     public void consume(Update update) {
-        log.info("consume Update:\n{}", update);
+        log.info("consume Update:\n{}", JacksonUtil.toJson(update));
         if (update.hasMessage()) {  // 消息：文字和图片等
             this.handleMessage(update.getMessage());
         } else if (update.hasEditedMessage()) {  // 修改消息：文字和图片等
