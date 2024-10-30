@@ -11,7 +11,7 @@ https://core.telegram.org/bots/features
 - 定义命令Command - 通过@BotFather or API method。  command命名使用小写英文字母和数字
 
 # Update/Message概念
- - chatId：1v1聊天的ID不变
+ - chatId：a Telegram chat with a user or a group。 同一个聊天室的ID不变
 
 # API 
 https://core.telegram.org/bots/api

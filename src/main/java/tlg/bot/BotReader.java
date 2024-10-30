@@ -5,7 +5,7 @@ import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateC
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import tlg.bot.model.Command;
+import tlg.bot.entity.Command;
 import utils.JacksonUtil;
 
 /**
@@ -32,7 +32,7 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
         if (update.hasMessage()) {  // 消息：文字和图片等
             this.handleMessage(update.getMessage());
         } else if (update.hasEditedMessage()) {  // 修改消息：文字和图片等
-            this.handleMessage(update.getMessage());
+            this.handleEditedMessage(update.getEditedMessage());
         } else if (update.hasCallbackQuery()) { // 交互Callback
             this.handleCallbackQuery(update.getCallbackQuery());
         } else if (update.hasPoll()) { // 投票
@@ -65,20 +65,27 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
         }
     }
 
+    protected void handleEditedMessage(final Message message) {
+        log.info("It's EditedMessage");
+        this.handleMessage(message);
+    }
+
     protected void doCommand(final Message message) {
 
     }
 
-    // 转成指令和参数
-    protected Command toCommand(String text) {
-        if (null == text) return null;
-        int index = text.indexOf(" ", 1);
-        if (index == -1) {  // 只有命令没有参数
+    // 第1个指令：这里只取第1个entity是指令的转成指令和参数
+    // Message.isCommand()已经保证了第1个是command
+    protected Command firstCommand(Message message) {
+        var entity = message.getEntities().get(0);
+        var text = message.getText();
+
+        if (entity.getLength() == text.length()) {  // 只有命令没有参数
             return Command.builder().command(text).build();
-        } else {
+        } else {    // 命令+后面的当成参数
             return Command.builder()
-                    .command(text.substring(0, index))
-                    .parameter(text.substring(index + 1))
+                    .command(text.substring(entity.getOffset(), entity.getLength()))
+                    .parameter(text.substring(entity.getLength() + 1))
                     .build();
         }
     }

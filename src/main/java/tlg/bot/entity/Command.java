@@ -1,4 +1,4 @@
-package tlg.bot.model;
+package tlg.bot.entity;
 
 import lombok.Builder;
 import lombok.Data;
