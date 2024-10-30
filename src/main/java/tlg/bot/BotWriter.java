@@ -2,6 +2,7 @@ package tlg.bot;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
+import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -28,6 +29,7 @@ public class BotWriter extends BotReader {
 
     // write text
     protected void writeText(Long chatId, String txt) {
+        if (StringUtils.isBlank(txt.trim())) return;    // api - 不能发送空消息
         var sm = SendMessage.builder().chatId(chatId).text(txt).build();
         try {
             // Execute it
