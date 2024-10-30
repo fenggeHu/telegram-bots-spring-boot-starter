@@ -12,6 +12,6 @@ import lombok.Data;
 public class Command {
     // 指令 /command
     private String command;
-    // 内容 xxx
-    private String content;
+    // 参数 xxx
+    private String parameter;
 }

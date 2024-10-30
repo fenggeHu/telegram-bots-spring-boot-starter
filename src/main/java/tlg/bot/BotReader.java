@@ -68,17 +68,16 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
 
     }
 
-    // 转成指令
+    // 转成指令和参数
     protected Command toCommand(String text) {
         if (null == text) return null;
         int index = text.indexOf(" ", 1);
         if (index == -1) {  // 只有命令没有参数
-            return Command.builder().command(text)
-                    .content("")
-                    .build();
+            return Command.builder().command(text).build();
         } else {
-            return Command.builder().command(text.substring(0, index))
-                    .content(text.substring(index + 1))
+            return Command.builder()
+                    .command(text.substring(0, index))
+                    .parameter(text.substring(index + 1))
                     .build();
         }
     }
