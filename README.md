@@ -8,7 +8,7 @@ https://core.telegram.org/bots/features
   - 数据交互: 机器人可以发送请求到外部API，并将获得的数据格式化后呈现给用户，提供实时的数据服务和互动。
   - 自动化任务: 结合外部API，机器人可以执行自动化任务，比如预订、订单管理、或者数据分析等，大大提升效率和用户体验。
 
-- 定义命令Command - 通过@BotFather or API method
+- 定义命令Command - 通过@BotFather or API method。  command命名使用小写英文字母和数字
 
 # Update/Message概念
  - chatId：1v1聊天的ID不变
