@@ -39,7 +39,7 @@ public class BotServer implements ApplicationContextAware {
         configs.parallelStream().forEach(e -> register(e));
     }
 
-    // 重试和捕获异常处理    TODO 状态检测： 怎么检测连接和重试 -- 通过定时任务扫描TelegramBotsLongPollingApplication.isRunning
+    // 重试和捕获异常处理    TODO 状态检测： 还要解决断线重连 -- 通过定时任务扫描TelegramBotsLongPollingApplication.isRunning
     public BotSession register(final BotConfig config) {
         var botName = config.getName();
         for (int i = 0; i < tryTimes; i++) {
