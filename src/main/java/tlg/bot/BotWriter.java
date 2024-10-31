@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
+ * Send Message to Chat - 发送信息
  * @author max.hu  @date 2024/10/28
  **/
 @Slf4j

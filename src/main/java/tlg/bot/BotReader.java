@@ -9,7 +9,7 @@ import tlg.bot.entity.Command;
 import utils.JacksonUtil;
 
 /**
- * 读取信息的Bot - 封装公共逻辑
+ * Get Chat Update - 读取信息的Bot - 封装公共逻辑
  * https://rubenlagus.github.io/TelegramBotsDocumentation/telegram-bots.html
  *
  * @author max.hu  @date 2024/10/24
