@@ -83,12 +83,23 @@ public class BotServer implements ApplicationContextAware {
     @SneakyThrows
     public void registerBean(final BotConfig config) {
         Class<?> tClass = Class.forName(config.getBotClassName());
-        applicationContext.registerBean(config.getId(), tClass, config);
+        try {
+            tClass.getConstructor(BotConfig.class); // 优先使用
+            applicationContext.registerBean(config.getId(), tClass, config);
+            log.debug("register Spring Bean by BotConfig");
+        } catch (Exception e) {
+            applicationContext.registerBean(config.getId(), tClass);    // 使用默认构造函数
+            log.debug("register Spring Bean without BotConfig");
+        }
     }
 
     @SneakyThrows
     private BotReader getBotBean(final BotConfig config) {
-        return (BotReader) applicationContext.getBean(config.getId());
+        var bot = (BotReader) applicationContext.getBean(config.getId());
+        if (bot.getConfig() == null) {  // 判断bot config是否被注入
+            bot.setConfig(config);
+        }
+        return bot;
     }
 
     private AnnotationConfigApplicationContext applicationContext = null;

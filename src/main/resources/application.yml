@@ -2,7 +2,7 @@ spring:
   application:
     name: telegram-bots
 
-# 配置bot参数
+# 配置bots参数
 bot:
   configs:
     - id: xxxx1_Bot

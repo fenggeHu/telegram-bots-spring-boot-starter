@@ -1,5 +1,7 @@
 package tlg.bot;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -16,7 +18,12 @@ import utils.JacksonUtil;
  **/
 @Slf4j
 public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer {
-    protected final BotConfig config;
+    @Getter
+    @Setter
+    protected BotConfig config;
+
+    public BotReader() {
+    }
 
     /**
      * 通过配置初始化相关的信息
