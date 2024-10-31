@@ -1,5 +1,7 @@
 package tlg.bot;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.StringUtils;
@@ -11,11 +13,17 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 /**
  * Send Message to Chat - 发送信息
+ *
  * @author max.hu  @date 2024/10/28
  **/
 @Slf4j
 public class BotWriter extends BotReader {
-    protected final TelegramClient telegramClient;
+    @Getter
+    @Setter
+    protected TelegramClient telegramClient;
+
+    public BotWriter() {
+    }
 
     /**
      * 通过配置初始化相关的信息
@@ -24,6 +32,11 @@ public class BotWriter extends BotReader {
      */
     public BotWriter(BotConfig config) {
         super(config);
+        this.initTelegramClient();
+    }
+
+    // 初始化TelegramClient
+    public void initTelegramClient() {
         telegramClient = new OkHttpTelegramClient(new OkHttpClient.Builder().build(),
                 config.getToken(), TelegramUrl.DEFAULT_URL);
     }

@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import tlg.bot.BotReader;
 import tlg.bot.BotConfig;
+import tlg.bot.BotWriter;
 
 import java.util.List;
 
@@ -95,11 +96,20 @@ public class BotServer implements ApplicationContextAware {
 
     @SneakyThrows
     private BotReader getBotBean(final BotConfig config) {
-        var bot = (BotReader) applicationContext.getBean(config.getId());
-        if (bot.getConfig() == null) {  // 判断bot config是否被注入
-            bot.setConfig(config);
+        var bot = applicationContext.getBean(config.getId());
+        if (BotWriter.class.isInstance(bot)) {
+            var bw = (BotWriter) bot;
+            if (bw.getConfig() == null) {
+                bw.setConfig(config);
+            }
+            if (bw.getTelegramClient() == null) {
+                bw.initTelegramClient();
+            }
+        } else if (BotReader.class.isInstance(bot)) {  // 判断bot config是否被注入
+            var br = (BotReader) bot;
+            br.setConfig(config);
         }
-        return bot;
+        return (BotReader) bot;
     }
 
     private AnnotationConfigApplicationContext applicationContext = null;
