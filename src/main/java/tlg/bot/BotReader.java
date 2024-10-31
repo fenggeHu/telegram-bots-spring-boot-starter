@@ -46,10 +46,9 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
     // 需要实现
     protected void handleMessage(final Message message) {
         if (message.isCommand()) {
-            log.info("command: {}", message.getText());
             this.doCommand(message);
         } else if (message.isUserMessage()) {
-            log.info("user message: {}", message.getText());
+            this.doUserMessage(message);
         } else if (message.isChannelMessage()) {
             log.info("channel message: {}", message.getText());
         } else if (message.isGroupMessage()) {
@@ -70,8 +69,12 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
         this.handleMessage(message);
     }
 
-    protected void doCommand(final Message message) {
+    protected void doUserMessage(final Message message) {
+        log.info("user message: {}", message.getText());
+    }
 
+    protected void doCommand(final Message message) {
+        log.info("command: {}", message.getText());
     }
 
     // 第1个指令：这里只取第1个entity是指令的转成指令和参数
@@ -81,9 +84,9 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
         var text = message.getText();
 
         if (entity.getLength() == text.length()) {  // 只有命令没有参数
-            return Command.builder().command(text).build();
+            return Command.builder().chatId(message.getChatId()).command(text).build();
         } else {    // 命令+后面的当成参数
-            return Command.builder()
+            return Command.builder().chatId(message.getChatId())
                     .command(text.substring(entity.getOffset(), entity.getLength()))
                     .parameter(text.substring(entity.getLength() + 1))
                     .build();
