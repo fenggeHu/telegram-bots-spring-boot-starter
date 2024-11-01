@@ -10,7 +10,7 @@ import lombok.Data;
  **/
 @Data
 @Builder
-public class Command {
+public class CommandDO {
     private Long chatId;
     // 指令 /command
     private String command;

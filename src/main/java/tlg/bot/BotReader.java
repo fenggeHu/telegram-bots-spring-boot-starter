@@ -7,7 +7,9 @@ import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateC
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import tlg.bot.entity.Command;
+import tlg.bot.annotation.Command;
+import tlg.bot.annotation.Router;
+import tlg.bot.entity.CommandDO;
 import utils.JacksonUtil;
 
 /**
@@ -80,20 +82,21 @@ public abstract class BotReader implements LongPollingSingleThreadUpdateConsumer
         log.info("user message: {}", message.getText());
     }
 
+    @Router(anno = Command.class)
     protected void doCommand(final Message message) {
         log.info("command: {}", message.getText());
     }
 
     // 第1个指令：这里只取第1个entity是指令的转成指令和参数
     // Message.isCommand()已经保证了第1个是command
-    protected Command firstCommand(Message message) {
+    protected CommandDO firstCommand(Message message) {
         var entity = message.getEntities().get(0);
         var text = message.getText();
 
         if (entity.getLength() == text.length()) {  // 只有命令没有参数
-            return Command.builder().chatId(message.getChatId()).command(text).build();
+            return CommandDO.builder().chatId(message.getChatId()).command(text).build();
         } else {    // 命令+后面的当成参数
-            return Command.builder().chatId(message.getChatId())
+            return CommandDO.builder().chatId(message.getChatId())
                     .command(text.substring(entity.getOffset(), entity.getLength()))
                     .parameter(text.substring(entity.getLength() + 1))
                     .build();
